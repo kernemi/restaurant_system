@@ -228,7 +228,7 @@ public class ChiefAuth extends JFrame {
                 String name = rs.getString("fullname");
                 JOptionPane.showMessageDialog(this, "Hello, " + name + "!");
                 dispose();
-                new RS.Dashboards.CustomerDashboard(name).setVisible(true);
+                new RS.Dashboards.ChiefDashboard(name).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid credentials!", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
