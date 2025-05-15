@@ -1,5 +1,7 @@
 package RS.Auth;
+
 import RS.DBconnection;
+import RS.Main;
 import RS.UI.ScaledBackgroundPanel;
 import java.awt.*;
 import java.awt.event.*;
@@ -7,14 +9,14 @@ import java.sql.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-
 public class ManagerAuth extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
+    private JTextField securityKeyField;   // Added security key input
 
     public ManagerAuth() {
         setTitle("Manager Login");
-        setSize(700, 430);
+        setSize(700, 480);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -62,25 +64,20 @@ public class ManagerAuth extends JFrame {
         background.add(passwordField);
 
         JButton loginBtn = new JButton("Login");
-        loginBtn.setBounds(300, 200, 100, 35);
+        loginBtn.setBounds(300, 250, 100, 35);
         styleButton(loginBtn, new Color(0, 128, 255));
         loginBtn.addActionListener(e -> login());
         background.add(loginBtn);
 
         JButton backBtn = new JButton("Back");
-        backBtn.setBounds(300, 250, 100, 30);
+        backBtn.setBounds(300, 300, 100, 30);
         styleButton(backBtn, new Color(255, 102, 102));
         backBtn.addActionListener(e -> {
             this.dispose();
-            new RS.Main();
+            new Main.WelcomePage();
         });
         background.add(backBtn);
 
-        JLabel devInfo = new JLabel("✨ Developed by Keri");
-        devInfo.setBounds(10, 370, 400, 25);
-        devInfo.setFont(new Font("SansSerif", Font.BOLD, 13));
-        devInfo.setForeground(Color.WHITE);
-        background.add(devInfo);
     }
 
     private void styleInput(JTextField field) {
@@ -108,8 +105,9 @@ public class ManagerAuth extends JFrame {
     }
 
     private void login() {
-        String username = usernameField.getText();
+        String username = usernameField.getText().trim();
         String password = new String(passwordField.getPassword());
+
 
         try (Connection conn = DBconnection.getConnection()) {
             String sql = "SELECT name FROM manager WHERE username = ? AND password = ?";

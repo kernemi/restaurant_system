@@ -115,15 +115,9 @@ public class ChiefAuth extends JFrame {
         styleButton(backBtn, new Color(255, 102, 102));
         backBtn.addActionListener(e -> {
             this.dispose();
-            new RS.Main();
+            new RS.Main.WelcomePage();
         });
         background.add(backBtn);
-
-        JLabel devInfo = new JLabel("\u2728 Developed by Keri");
-        devInfo.setBounds(10, 430, 400, 25);
-        devInfo.setFont(new Font("SansSerif", Font.BOLD, 13));
-        devInfo.setForeground(Color.WHITE);
-        background.add(devInfo);
 
         keyLabel.setVisible(false);
         securityKeyField.setVisible(false);
