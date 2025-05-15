@@ -69,17 +69,11 @@ public class OwnerAuth extends JFrame {
         Font titleFont = new Font("Serif", Font.BOLD, 28);
         Font labelFont = new Font("Serif", Font.BOLD, 20);
 
-        JLabel headerLabel = new JLabel("Owner Login/Signup");
-        headerLabel.setBounds(100, 0, 300, 40);
+        JLabel headerLabel = new JLabel("Owner Login");
+        headerLabel.setBounds(170, 0, 300, 40);
         headerLabel.setFont(titleFont);
         headerLabel.setForeground(cream);
         centerPanel.add(headerLabel);
-
-        JLabel loginLabel = new JLabel("Owner Login");
-        loginLabel.setBounds(150, 40, 200, 30);
-        loginLabel.setFont(new Font("Serif", Font.BOLD, 24));
-        loginLabel.setForeground(cream);
-        centerPanel.add(loginLabel);
 
         JLabel userLabel = new JLabel("👤 Username:");
         userLabel.setBounds(20, 90, 140, 30);

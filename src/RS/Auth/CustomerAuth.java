@@ -1,14 +1,13 @@
 package RS.Auth;
 
 import RS.DBconnection;
-import RS.Dashboards.CustomerDashboard;
-import RS.UI.ScaledBackgroundPanel;
+import RS.Main;
 import java.awt.*;
 import java.awt.event.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.awt.image.*;
+import java.io.IOException;
 import java.sql.*;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
@@ -16,98 +15,149 @@ public class CustomerAuth extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JTextField fullNameField;
-    private JLabel fullNameLabel;
+    private JTextField emailField;
+    private JLabel fullNameLabel, emailLabel, authModeLabel;
     private boolean isLoginMode = true;
-    private JLabel authModeLabel;
-    private JButton toggleBtn;
-    private JButton authBtn;
+    private Image bgImage;
+    private JButton toggleBtn, authBtn;
 
     public CustomerAuth() {
-        setTitle("Customer Authentication");
-        setSize(700, 500);
+        setTitle("FeastFlow - Restaurant Management");
+        setSize(700, 430);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
 
-        ScaledBackgroundPanel background = new ScaledBackgroundPanel("RS/UI/restaurant.jpg");
+        try {
+            bgImage = ImageIO.read(getClass().getResource("/RS/UI/bg.png"));
+            bgImage = blurImage((BufferedImage) bgImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JPanel background = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (bgImage != null) {
+                    g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        };
         background.setLayout(null);
-        setContentPane(background);
-
         initUI(background);
+
+        setContentPane(background);
         setVisible(true);
     }
 
     private void initUI(JPanel background) {
-        JLabel headerLabel = new JLabel("Restaurant Management System");
-        headerLabel.setBounds(150, 20, 500, 40);
-        headerLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
-        headerLabel.setForeground(Color.WHITE);
-        background.add(headerLabel);
+        int panelWidth = 500;
+        int panelHeight = 350;
+
+        JPanel centerPanel = new JPanel(null);
+        centerPanel.setSize(panelWidth, panelHeight);
+        background.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                int x = (background.getWidth() - panelWidth) / 2;
+                int y = (background.getHeight() - panelHeight) / 2;
+                centerPanel.setLocation(x, y);
+            }
+        });
+        centerPanel.setOpaque(false);
+
+        Color cream = new Color(240, 217, 181);
+        Color darkBrown = new Color(33, 20, 10);
+        Font labelFont = new Font("Serif", Font.BOLD, 18);
 
         authModeLabel = new JLabel("Customer Login");
-        authModeLabel.setBounds(280, 60, 200, 30);
-        authModeLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
-        authModeLabel.setForeground(Color.WHITE);
-        background.add(authModeLabel);
+        authModeLabel.setBounds(150, 10, 300, 30);
+        authModeLabel.setFont(new Font("Serif", Font.BOLD, 26));
+        authModeLabel.setForeground(cream);
+        centerPanel.add(authModeLabel);
 
-        fullNameLabel = new JLabel("Full Name:");
-        fullNameLabel.setBounds(170, 100, 120, 30);
-        fullNameLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
-        fullNameLabel.setForeground(Color.WHITE);
-        background.add(fullNameLabel);
+        // Full Name
+        fullNameLabel = new JLabel("👤 Full Name:");
+        fullNameLabel.setBounds(20, 50, 120, 30);
+        fullNameLabel.setFont(labelFont);
+        fullNameLabel.setForeground(cream);
+        centerPanel.add(fullNameLabel);
 
-        fullNameField = new JTextField();
-        fullNameField.setBounds(290, 100, 200, 30);
-        styleInput(fullNameField);
-        background.add(fullNameField);
+        fullNameField = new JTextField("your full name");
+        fullNameField.setBounds(160, 50, 260, 30);
+        styleInput(fullNameField, cream, darkBrown);
+        addPlaceholderBehavior(fullNameField, "your full name");
+        centerPanel.add(fullNameField);
 
+        // Username
         JLabel userLabel = new JLabel("👤 Username:");
-        userLabel.setBounds(170, 150, 120, 30);
-        userLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
-        userLabel.setForeground(Color.WHITE);
-        background.add(userLabel);
+        userLabel.setBounds(20, 90, 120, 30);
+        userLabel.setFont(labelFont);
+        userLabel.setForeground(cream);
+        centerPanel.add(userLabel);
 
+        usernameField = new JTextField("your username");
+        usernameField.setBounds(160, 90, 260, 30);
+        styleInput(usernameField, cream, darkBrown);
+        addPlaceholderBehavior(usernameField, "your username");
+        centerPanel.add(usernameField);
+
+        // Email
+        emailLabel = new JLabel("📧 Email:");
+        emailLabel.setBounds(20, 130, 120, 30);
+        emailLabel.setFont(labelFont);
+        emailLabel.setForeground(cream);
+        centerPanel.add(emailLabel);
+
+        emailField = new JTextField("your email");
+        emailField.setBounds(160, 130, 260, 30);
+        styleInput(emailField, cream, darkBrown);
+        addPlaceholderBehavior(emailField, "your email");
+        centerPanel.add(emailField);
+
+        // Password
         JLabel passLabel = new JLabel("🔒 Password:");
-        passLabel.setBounds(170, 200, 120, 30);
-        passLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
-        passLabel.setForeground(Color.WHITE);
-        background.add(passLabel);
+        passLabel.setBounds(20, 170, 120, 30);
+        passLabel.setFont(labelFont);
+        passLabel.setForeground(cream);
+        centerPanel.add(passLabel);
 
-        usernameField = new JTextField();
-        usernameField.setBounds(290, 150, 200, 30);
-        styleInput(usernameField);
-        background.add(usernameField);
+        passwordField = new JPasswordField("your password");
+        passwordField.setBounds(160, 170, 260, 30);
+        passwordField.setForeground(Color.GRAY);
+        styleInput(passwordField, cream, darkBrown);
+        addPlaceholderBehavior(passwordField, "your password");
+        centerPanel.add(passwordField);
 
-        passwordField = new JPasswordField();
-        passwordField.setBounds(290, 200, 200, 30);
-        styleInput(passwordField);
-        background.add(passwordField);
-
+        // Login/Signup Button
         authBtn = new JButton("Login");
-        authBtn.setBounds(300, 260, 100, 35);
-        styleButton(authBtn, new Color(0, 128, 255));
+        authBtn.setBounds(100, 220, 100, 40);
+        styleButton(authBtn, new Color(25, 42, 86));
         authBtn.addActionListener(e -> {
             if (isLoginMode) login();
             else register();
         });
-        background.add(authBtn);
+        centerPanel.add(authBtn);
 
+        // Toggle Button
         toggleBtn = new JButton("Switch to Signup");
-        toggleBtn.setBounds(280, 305, 140, 30);
+        toggleBtn.setBounds(210, 220, 150, 40);
         styleButton(toggleBtn, new Color(102, 204, 102));
         toggleBtn.addActionListener(e -> toggleAuthMode());
-        background.add(toggleBtn);
+        centerPanel.add(toggleBtn);
 
+        // Back Button
         JButton backBtn = new JButton("Back");
-        backBtn.setBounds(300, 345, 100, 30);
-        styleButton(backBtn, new Color(255, 102, 102));
+        backBtn.setBounds(180, 270, 100, 35);
+        styleButton(backBtn, new Color(139, 0, 0));
         backBtn.addActionListener(e -> {
             this.dispose();
-            new RS.Main.WelcomePage();
+            new Main.WelcomePage().setVisible(true);
         });
-        background.add(backBtn);
+        centerPanel.add(backBtn);
 
-        fullNameLabel.setVisible(false);
-        fullNameField.setVisible(false);
+        background.add(centerPanel);
+        toggleFieldVisibility();
     }
 
     private void toggleAuthMode() {
@@ -115,16 +165,21 @@ public class CustomerAuth extends JFrame {
         authModeLabel.setText(isLoginMode ? "Customer Login" : "Customer Signup");
         authBtn.setText(isLoginMode ? "Login" : "Signup");
         toggleBtn.setText(isLoginMode ? "Switch to Signup" : "Switch to Login");
-
-        fullNameLabel.setVisible(!isLoginMode);
-        fullNameField.setVisible(!isLoginMode);
-        fullNameField.setText("");
+        toggleFieldVisibility();
     }
 
-    private void styleInput(JTextField field) {
-        field.setBackground(new Color(255, 255, 255, 200));
-        field.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        field.setBorder(new LineBorder(Color.GRAY, 1, true));
+    private void toggleFieldVisibility() {
+        fullNameLabel.setVisible(!isLoginMode);
+        fullNameField.setVisible(!isLoginMode);
+        emailLabel.setVisible(!isLoginMode);
+        emailField.setVisible(!isLoginMode);
+    }
+
+    private void styleInput(JTextField field, Color bg, Color fg) {
+        field.setBackground(bg);
+        field.setForeground(fg);
+        field.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        field.setBorder(new LineBorder(Color.DARK_GRAY, 1, true));
     }
 
     private void styleButton(JButton button, Color color) {
@@ -138,6 +193,7 @@ public class CustomerAuth extends JFrame {
             public void mouseEntered(MouseEvent e) {
                 button.setBackground(color.darker());
             }
+
             public void mouseExited(MouseEvent e) {
                 button.setBackground(color);
             }
@@ -149,23 +205,17 @@ public class CustomerAuth extends JFrame {
         String password = new String(passwordField.getPassword());
 
         try (Connection conn = DBconnection.getConnection()) {
-            String sql = "SELECT name, password_hash, salt FROM customer WHERE username = ?";
+            String sql = "SELECT fullname FROM customer WHERE username = ? AND pasword = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, username);
+            stmt.setString(2, password);
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                String name = rs.getString("name");
-                String storedHash = rs.getString("password_hash");
-                String storedSalt = rs.getString("salt");
-
-                if (validatePassword(password, storedHash, storedSalt)) {
-                    JOptionPane.showMessageDialog(this, "Welcome, " + name + "!");
-                    dispose();
-                    new CustomerDashboard(name);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Invalid credentials!", "Login Failed", JOptionPane.ERROR_MESSAGE);
-                }
+                String name = rs.getString("fullname");
+                JOptionPane.showMessageDialog(this, "Hello, " + name + "!");
+                dispose();
+                new RS.Dashboards.CustomerDashboard(name).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid credentials!", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
@@ -179,6 +229,7 @@ public class CustomerAuth extends JFrame {
         String username = usernameField.getText().trim();
         String password = new String(passwordField.getPassword());
         String fullName = fullNameField.getText().trim();
+        String email = emailField.getText().trim();
 
         if (username.isEmpty() || password.isEmpty() || fullName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "All fields are required.", "Input Error", JOptionPane.WARNING_MESSAGE);
@@ -196,64 +247,49 @@ public class CustomerAuth extends JFrame {
                 return;
             }
 
-            String salt = generateSalt();
-            String hash = hashPassword(password, salt);
-
-            String insertSql = "INSERT INTO customer (username, name, password_hash, salt) VALUES (?, ?, ?, ?)";
+            String insertSql = "INSERT INTO customer (fullname, username, email, pasword) VALUES (?, ?, ?, ?)";
             PreparedStatement insertStmt = conn.prepareStatement(insertSql);
-            insertStmt.setString(1, username);
-            insertStmt.setString(2, fullName);
-            insertStmt.setString(3, hash);
-            insertStmt.setString(4, salt);
+            insertStmt.setString(1, fullName);
+            insertStmt.setString(2, username);
+            insertStmt.setString(3, email);
+            insertStmt.setString(4, password);
             insertStmt.executeUpdate();
 
             JOptionPane.showMessageDialog(this, "Signup successful! Please login.");
             toggleAuthMode();
-
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Database error.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private boolean validatePassword(String password, String storedHash, String storedSalt) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            digest.update(storedSalt.getBytes());
-            byte[] hash = digest.digest(password.getBytes());
-
-            StringBuilder sb = new StringBuilder();
-            for (byte b : hash) {
-                sb.append(String.format("%02x", b));
-            }
-            return sb.toString().equals(storedHash);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return false;
-        }
+    private BufferedImage blurImage(BufferedImage image) {
+        float[] matrix = new float[9];
+        for (int i = 0; i < 9; i++) matrix[i] = 1.0f / 9.0f;
+        BufferedImageOp op = new ConvolveOp(new Kernel(3, 3, matrix));
+        return op.filter(image, null);
     }
 
-    private String generateSalt() {
-        SecureRandom sr = new SecureRandom();
-        byte[] salt = new byte[16];
-        sr.nextBytes(salt);
-        return new String(salt);
-    }
+    private void addPlaceholderBehavior(JTextField field, String placeholder) {
+        field.setForeground(Color.GRAY);
+        field.setText(placeholder);
 
-    private String hashPassword(String password, String salt) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            digest.update(salt.getBytes());
-            byte[] hash = digest.digest(password.getBytes());
-
-            StringBuilder sb = new StringBuilder();
-            for (byte b : hash) {
-                sb.append(String.format("%02x", b));
+        field.addFocusListener(new FocusAdapter() {
+            public void focusGained(FocusEvent e) {
+                if (field.getText().equals(placeholder)) {
+                    field.setText("");
+                    field.setForeground(Color.BLACK);
+                    if (field instanceof JPasswordField) ((JPasswordField) field).setEchoChar('•');
+                }
             }
-            return sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
-        }
+
+            public void focusLost(FocusEvent e) {
+                if (field.getText().isEmpty()) {
+                    field.setForeground(Color.GRAY);
+                    field.setText(placeholder);
+                    if (field instanceof JPasswordField) ((JPasswordField) field).setEchoChar((char) 0);
+                }
+            }
+        });
     }
 }
