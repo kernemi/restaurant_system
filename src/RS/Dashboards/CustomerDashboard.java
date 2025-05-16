@@ -1,81 +1,123 @@
 package RS.Dashboards;
 
-import javax.swing.*;
+import RS.Services.BrowseMenuPage;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public class CustomerDashboard extends JFrame {
-    private String customerName;
+    private final String customerName;
+    private Image bgImage;
 
     public CustomerDashboard(String customerName) {
         this.customerName = customerName;
-        setTitle("Customer Dashboard - Welcome " + customerName);
-        setSize(650, 450);
+        setTitle(customerName+"'s dashboard");
+        setSize(700, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        initUI();
+        try {
+            bgImage = ImageIO.read(getClass().getResource("/RS/UI/bg.png"));
+            bgImage = blurImage((BufferedImage) bgImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JPanel background = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (bgImage != null) {
+                    g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        };
+        background.setLayout(null);
+        initUI(background);
+
+        setContentPane(background);
         setVisible(true);
     }
 
-    private void initUI() {
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        panel.setBackground(Color.WHITE);
-
-        JLabel titleLabel = new JLabel("Customer Dashboard", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        panel.add(titleLabel, BorderLayout.NORTH);
-
-        JPanel centerPanel = new JPanel(new GridLayout(4, 1, 15, 15));
-        centerPanel.setBackground(Color.WHITE);
-
-        JButton browseMenuBtn = new JButton("📋 Browse Menu");
-        JButton feedbackBtn = new JButton("💬 Give Feedback");
-        JButton orderBtn = new JButton("🛒 Place Order");
-        JButton chatbotBtn = new JButton("🤖 Chat with Assistant");
-
-        styleButton(browseMenuBtn);
-        styleButton(feedbackBtn);
-        styleButton(orderBtn);
-        styleButton(chatbotBtn);
-
-        browseMenuBtn.addActionListener(e -> showMessage("Menu", "Pizza\nBurger\nPasta\nDrinks..."));
-        feedbackBtn.addActionListener(e -> giveFeedback());
-        orderBtn.addActionListener(e -> showMessage("Place Order", "Redirecting to order page..."));
-        chatbotBtn.addActionListener(e -> showMessage("Chatbot", "How can I assist you today?"));
-
-        centerPanel.add(browseMenuBtn);
-        centerPanel.add(feedbackBtn);
-        centerPanel.add(orderBtn);
-        centerPanel.add(chatbotBtn);
-
-        panel.add(centerPanel, BorderLayout.CENTER);
-
-        JLabel footer = new JLabel("Logged in as: " + customerName, SwingConstants.RIGHT);
-        footer.setFont(new Font("SansSerif", Font.ITALIC, 12));
-        footer.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 10));
-        panel.add(footer, BorderLayout.SOUTH);
-
-        add(panel);
+    public static BufferedImage blurImage(BufferedImage image) {
+        float[] matrix = new float[25];
+        for (int i = 0; i < 25; i++) {
+            matrix[i] = 1.0f / 25.0f;
+        }
+        Kernel kernel = new Kernel(5, 5, matrix);
+        ConvolveOp convolve = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
+        return convolve.filter(image, null);
     }
 
-    private void styleButton(JButton button) {
-        button.setFont(new Font("SansSerif", Font.BOLD, 16));
-        button.setBackground(new Color(46, 204, 113));
-        button.setForeground(Color.WHITE);
-        button.setFocusPainted(false);
-        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        button.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-        button.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                button.setBackground(new Color(39, 174, 96));
-            }
+    private void initUI(JPanel background) {
+        int panelWidth = 600;
+        int panelHeight = 400;
 
-            public void mouseExited(MouseEvent e) {
-                button.setBackground(new Color(46, 204, 113));
+        JPanel centerPanel = new JPanel(new BorderLayout(20, 0));
+        centerPanel.setSize(panelWidth, panelHeight);
+        background.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                int x = (background.getWidth() - panelWidth) / 2;
+                int y = (background.getHeight() - panelHeight) / 2;
+                centerPanel.setLocation(x, y);
             }
         });
+        centerPanel.setOpaque(false);
+
+        // Left panel for the image
+        JLabel imageLabel = new JLabel();
+        try {
+            Image img = ImageIO.read(getClass().getResource("/RS/UI/customer.png"));
+            Image scaledImg = img.getScaledInstance(250, 300, Image.SCALE_SMOOTH);
+            imageLabel.setIcon(new ImageIcon(scaledImg));
+        } catch (IOException e) {
+            imageLabel.setText("Image not found");
+        }
+
+        JPanel imagePanel = new JPanel();
+        imagePanel.setOpaque(false);
+        imagePanel.add(imageLabel);
+
+        // Right panel for buttons
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+        rightPanel.setOpaque(false);
+
+        JLabel titleLabel = new JLabel("Hi, " + customerName);
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
+        titleLabel.setForeground(new Color(240, 217, 181));
+        rightPanel.add(titleLabel);
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 15)));
+
+        String[] services = {"📋Browse Menu", "💬 Give Feedback", "🛒 Place Order", "🤖 Chat with Assistant", "Back to entryPage"};
+        for (String service : services) {
+            JButton btn = new RoundedButton(service);
+            btn.setAlignmentX(Component.CENTER_ALIGNMENT);
+            btn.setMaximumSize(new Dimension(230, 45));
+            btn.addActionListener(e -> {
+                dispose();
+                switch (service) {
+                    case "📋Browse Menu" -> new BrowseMenuPage();
+                    case "💬 Give Feedback" -> giveFeedback();
+                    case "🛒 Place Order" -> showMessage("Place Order", "Redirecting to order page...");
+                    case "🤖 Chat with Assistant" -> showMessage("Chatbot", "How can I assist you today?");
+                    case "Back to entryPage" -> new RS.Main.WelcomePage();
+                }
+            });
+            rightPanel.add(Box.createRigidArea(new Dimension(0, 9)));
+            rightPanel.add(btn);
+        }
+
+        centerPanel.add(imagePanel, BorderLayout.WEST);
+        centerPanel.add(rightPanel, BorderLayout.CENTER);
+
+        background.add(centerPanel);
     }
 
     private void showMessage(String title, String message) {
@@ -85,10 +127,44 @@ public class CustomerDashboard extends JFrame {
     private void giveFeedback() {
         String feedback = JOptionPane.showInputDialog(this, "Please write your feedback:");
         if (feedback != null && !feedback.trim().isEmpty()) {
-            // Here you can save feedback to DB if needed
             JOptionPane.showMessageDialog(this, "Thank you for your feedback!");
         } else {
             JOptionPane.showMessageDialog(this, "No feedback given.");
+        }
+    }
+
+    static class RoundedButton extends JButton {
+        public RoundedButton(String text) {
+            super(text);
+            setFont(new Font("SansSerif", Font.BOLD, 18));
+            setFocusPainted(false);
+            setForeground(Color.WHITE);
+            setBackground(new Color(100, 60, 30));
+            setOpaque(false);
+            setContentAreaFilled(false);
+            setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent evt) {
+                    setFont(new Font("SansSerif", Font.BOLD, 20));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent evt) {
+                    setFont(new Font("SansSerif", Font.BOLD, 18));
+                }
+            });
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setColor(getBackground());
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
+            super.paintComponent(g);
+            g2.dispose();
         }
     }
 }

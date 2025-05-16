@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BrowseMenuPage",
+            "request": "launch",
+            "mainClass": "RS.Services.BrowseMenuPage",
+            "projectName": "restaurant-system_2d42a133"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
