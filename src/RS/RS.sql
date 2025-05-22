@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2025 at 01:21 PM
+-- Generation Time: May 22, 2025 at 05:46 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -87,6 +87,38 @@ INSERT INTO `feedback` (`id`, `customer_id`, `message`, `submitted_at`) VALUES
 (2, 1, 'overall it is nice. if there is variety of coffee it will be good', '2025-05-19 21:47:02'),
 (3, 1, 'what a nice service', '2025-05-19 21:51:41'),
 (4, 1, 'wow', '2025-05-20 08:56:41');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ingredients`
+--
+
+CREATE TABLE `ingredients` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `quantity` varchar(50) NOT NULL,
+  `price` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ingredients`
+--
+
+INSERT INTO `ingredients` (`id`, `name`, `quantity`, `price`) VALUES
+(1, 'Flour', '100 kg', 50.00),
+(2, 'Sugar', '50 kg', 30.00),
+(3, 'Vegetable Oil', '30 L', 45.00),
+(4, 'Salt', '20 kg', 10.00),
+(5, 'Yeast', '5 kg', 25.00),
+(6, 'Milk', '100 L', 70.00),
+(7, 'Butter', '10 kg', 80.00),
+(8, 'Eggs', '200 pcs', 60.00),
+(9, 'Vanilla Extract', '2 L', 100.00),
+(10, 'Cocoa Powder', '15 kg', 90.00),
+(11, 'Spinash', '2 kg', 50.00),
+(12, 'Mango', '5 kg', 30.00),
+(13, 'Coffee', '10 kg', 500.00);
 
 -- --------------------------------------------------------
 
@@ -203,6 +235,12 @@ ALTER TABLE `feedback`
   ADD KEY `customer_id` (`customer_id`);
 
 --
+-- Indexes for table `ingredients`
+--
+ALTER TABLE `ingredients`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `manager`
 --
 ALTER TABLE `manager`
@@ -245,6 +283,12 @@ ALTER TABLE `feedback`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `ingredients`
+--
+ALTER TABLE `ingredients`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
 -- AUTO_INCREMENT for table `manager`
 --
 ALTER TABLE `manager`
@@ -254,7 +298,7 @@ ALTER TABLE `manager`
 -- AUTO_INCREMENT for table `menu_items`
 --
 ALTER TABLE `menu_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `owner`

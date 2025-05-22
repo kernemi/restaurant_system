@@ -1,1 +1,0 @@
-//A utility class for managing date and time operations, such as timestamping transactions or messages.
