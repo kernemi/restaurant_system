@@ -1,6 +1,7 @@
 package RS.Dashboards;
 
 import RS.Services.BrowseMenuPage;
+import RS.Services.ViewFeedbackService;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -98,7 +99,6 @@ public class ChiefDashboard extends JFrame {
         String[] actions = {
             "🍽 View Menu Items",
             "💬 View Feedback",
-            "📋 View Orders",
             "Back to entryPage"
         };
 
@@ -110,8 +110,7 @@ public class ChiefDashboard extends JFrame {
                 dispose();
                 switch (action) {
                     case "🍽 View Menu Items" -> new BrowseMenuPage(chiefId,chiefName,"chief");
-                    case "💬 View Customer Feedback" -> showMessage("Customer Feedback", "1. 'Great food!'\n2. 'Too salty'\n3. 'Loved the burger!'");
-                    case "📋 View Orders" -> showMessage("Order List", "1. #101 - Burger x2\n2. #102 - Salad x1, Pasta x1");
+                    case "💬 View Feedback" -> new ViewFeedbackService(chiefId,chiefName);
                     case "Back to entryPage" -> new RS.Main.WelcomePage();
                 }
             });
