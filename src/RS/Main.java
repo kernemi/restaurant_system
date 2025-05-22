@@ -24,7 +24,7 @@ public class Main {
             setLocationRelativeTo(null);
 
             try {
-                bgImage = ImageIO.read(getClass().getResource("UI/bg2.png")); // Set your food image here
+                bgImage = ImageIO.read(getClass().getResource("UI/bg2.png")); 
                 logoImage = ImageIO.read(getClass().getResource("UI/l.png"));
             } catch (IOException e) {
                 e.printStackTrace();

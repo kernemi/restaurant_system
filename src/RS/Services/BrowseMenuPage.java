@@ -2,16 +2,22 @@ package RS.Services;
 
 import java.awt.*;
 import java.awt.event.*;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class BrowseMenuPage extends JFrame {
-
     private CardLayout cardLayout;
     private JPanel cardPanel;
+    private String userName;
+    private final int userId;
+    private String role;
 
-    public BrowseMenuPage() {
+    public BrowseMenuPage(int userId, String userName, String role) {
+        this.userId = userId;
+        this.userName = userName;
+        this.role = role;
         setTitle("📋 Restaurant Menu");
-        setSize(700, 550);
+        setSize(700, 650);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -38,26 +44,56 @@ public class BrowseMenuPage extends JFrame {
 
         cardPanel.add(createImagePanel("breakfast.jpg"), "Breakfast");
         cardPanel.add(createImagePanel("lunch.jpg"), "Lunch");
-        cardPanel.add(createImagePanel("desserts.jpg"), "Desserts");
+        cardPanel.add(createImagePanel("dessert.jpg"), "Desserts");
         cardPanel.add(createImagePanel("drinks.jpg"), "Drinks");
 
         mainPanel.add(cardPanel, BorderLayout.CENTER);
+
+        
+        RoundedButton backButton = new RoundedButton("⬅ Back to Dashboard");
+        backButton.addActionListener(e -> {
+            dispose();
+            switch (role.toLowerCase()) {
+                case "customer":
+                    new RS.Dashboards.CustomerDashboard(userId,userName);
+                    break;
+                // case "manager":
+                //     new RS.Dashboards.ManagerDashboard(userId,userName);
+                //     break;
+                case "chief":
+                    new RS.Dashboards.ChiefDashboard(userId,userName);
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Unknown role: " + role);
+                    break;
+            }
+        });
+
+        mainPanel.add(backButton, BorderLayout.SOUTH);
+
 
         add(mainPanel);
         setVisible(true);
     }
 
-    private JPanel createImagePanel(String imagePath) {
+    private JPanel createImagePanel(String imageName) {
         JPanel panel = new JPanel(new BorderLayout());
         JLabel imageLabel = new JLabel();
 
-        ImageIcon icon = new ImageIcon(imagePath);
-        Image img = icon.getImage().getScaledInstance(650, 350, Image.SCALE_SMOOTH);
-        imageLabel.setIcon(new ImageIcon(img));
+        try {
+            Image img = ImageIO.read(getClass().getResource("/RS/UI/" + imageName));
+            Image scaledImg = img.getScaledInstance(700, 500, Image.SCALE_SMOOTH);
+            imageLabel.setIcon(new ImageIcon(scaledImg));
+        } catch (Exception ex) {
+            System.out.println("❌ Could not load image: " + imageName);
+            ex.printStackTrace();
+        }
+
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
         panel.add(imageLabel, BorderLayout.CENTER);
         return panel;
     }
+
 
     private class CategoryButtonListener implements ActionListener {
         @Override

@@ -1,6 +1,6 @@
 package RS.Dashboards;
 
-import RS.Services.BrowseMenuPage;
+import RS.Services.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -12,10 +12,12 @@ import javax.swing.*;
 
 public class CustomerDashboard extends JFrame {
     private final String customerName;
+    private final int customerId;
     private Image bgImage;
 
-    public CustomerDashboard(String customerName) {
+    public CustomerDashboard(int customerId, String customerName) {
         this.customerName = customerName;
+        this.customerId = customerId;
         setTitle(customerName+"'s dashboard");
         setSize(700, 500);
         setLocationRelativeTo(null);
@@ -103,9 +105,9 @@ public class CustomerDashboard extends JFrame {
             btn.addActionListener(e -> {
                 dispose();
                 switch (service) {
-                    case "📋Browse Menu" -> new BrowseMenuPage();
-                    case "💬 Give Feedback" -> giveFeedback();
-                    case "🛒 Place Order" -> showMessage("Place Order", "Redirecting to order page...");
+                    case "📋Browse Menu" -> new BrowseMenuPage(customerId,customerName,"customer");
+                    case "💬 Give Feedback" -> new FeedbackService(customerId,customerName);
+                    case "🛒 Place Order" -> new PlaceOrder(customerId,customerName);
                     case "🤖 Chat with Assistant" -> showMessage("Chatbot", "How can I assist you today?");
                     case "Back to entryPage" -> new RS.Main.WelcomePage();
                 }
@@ -122,15 +124,6 @@ public class CustomerDashboard extends JFrame {
 
     private void showMessage(String title, String message) {
         JOptionPane.showMessageDialog(this, message, title, JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    private void giveFeedback() {
-        String feedback = JOptionPane.showInputDialog(this, "Please write your feedback:");
-        if (feedback != null && !feedback.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Thank you for your feedback!");
-        } else {
-            JOptionPane.showMessageDialog(this, "No feedback given.");
-        }
     }
 
     static class RoundedButton extends JButton {

@@ -205,7 +205,7 @@ public class CustomerAuth extends JFrame {
         String password = new String(passwordField.getPassword());
 
         try (Connection conn = DBconnection.getConnection()) {
-            String sql = "SELECT fullname FROM customer WHERE username = ? AND pasword = ?";
+            String sql = "SELECT id,fullname FROM customer WHERE username = ? AND pasword = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, username);
             stmt.setString(2, password);
@@ -213,9 +213,10 @@ public class CustomerAuth extends JFrame {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 String name = rs.getString("fullname");
+                int customerId = rs.getInt("id");
                 JOptionPane.showMessageDialog(this, "Hello, " + name + "!");
                 dispose();
-                new RS.Dashboards.CustomerDashboard(name).setVisible(true);
+                new RS.Dashboards.CustomerDashboard(customerId,name).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid credentials!", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
