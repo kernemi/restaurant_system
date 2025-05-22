@@ -1,0 +1,1 @@
+This is a resturant management system with gives services for customer,chief,manager and owner for there respective roles.There is sql file that has to be imported before working on it.
