@@ -108,7 +108,30 @@ public class CustomerDashboard extends JFrame {
                     case "📋Browse Menu" -> new BrowseMenuPage(customerId,customerName,"customer");
                     case "💬 Give Feedback" -> new FeedbackService(customerId,customerName);
                     case "🛒 Place Order" -> new PlaceOrder(customerId,customerName);
-                    case "🤖 Chat with Assistant" -> showMessage("Chatbot", "How can I assist you today?");
+                    case "🤖 Chat with Assistant" -> {
+                        String[] options = {"Local Chat", "Telegram Bot"};
+                        int choice = JOptionPane.showOptionDialog(
+                            this,
+                            "Choose Chat Assistant type:",
+                            "Chat Assistant",
+                            JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            options,
+                            options[0]
+                        );
+
+                        if (choice == 0) {
+                            new RS.Chat.ChatClient("127.0.0.1", 12345).setVisible(true);
+                        } else if (choice == 1) {
+                            try {
+                                Desktop.getDesktop().browse(new java.net.URI("https://t.me/RSSystemCustomerBot"));
+                            } catch (Exception ex) {
+                                JOptionPane.showMessageDialog(this, "Failed to open Telegram bot link.");
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
                     case "Back to entryPage" -> new RS.Main.WelcomePage();
                 }
             });

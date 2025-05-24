@@ -6,6 +6,34 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ChatClient",
+            "request": "launch",
+            "mainClass": "RS.Chat.ChatClient",
+            "projectName": "restaurant-system_2d42a133"
+        },
+        {
+            "type": "java",
+            "name": "ChatServer",
+            "request": "launch",
+            "mainClass": "RS.Chat.ChatServer",
+            "projectName": "restaurant-system_2d42a133"
+        },
+        {
+            "type": "java",
+            "name": "ChatBotMain",
+            "request": "launch",
+            "mainClass": "RS.src.RS.Chat.ChatBotMain",
+            "projectName": "restaurant-system_2d42a133"
+        },
+        {
+            "type": "java",
+            "name": "CustomerChatBotUI",
+            "request": "launch",
+            "mainClass": "RS.Chat.CustomerChatBotUI",
+            "projectName": "restaurant-system_2d42a133"
+        },
+        {
+            "type": "java",
             "name": "BrowseMenuPage",
             "request": "launch",
             "mainClass": "RS.Services.BrowseMenuPage",
@@ -23,7 +51,7 @@
             "request": "launch",
             "mainClass": "RS.Main",
             "projectName": "restaurant-system_2d42a133",
-            "vmArgs": "-cp lib/mysql-connector-j-9.3.0.jar"
+            "vmArgs": "-cp lib/json-20231013.jar;lib/gson-2.10.1.jar;lib/telegrambots-6.8.0(1).jar;lib/telegrambots-meta-6.8.0(1).jar;lib/mysql-connector-j-9.3.0.jar"
         }
     ]
 }

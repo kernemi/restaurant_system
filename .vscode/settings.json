@@ -1,6 +1,9 @@
 {
   "java.project.sourcePaths": ["src"],
   "java.project.referencedLibraries": [
-     "c:\\Users\\PC\\OneDrive\\Desktop\\java\\Jproj\\lib\\mysql-connector-j-9.3.0.jar"
+    "c:\\Users\\PC\\OneDrive\\Desktop\\java\\Jproj\\lib\\mysql-connector-j-9.3.0.jar",
+    "C:\\Users\\PC\\OneDrive\\Desktop\\java\\restaurant-system\\src\\RS\\lib\\telegrambots-meta-6.8.0.jar",
+    "C:\\Users\\PC\\OneDrive\\Desktop\\java\\restaurant-system\\src\\RS\\lib\\telegrambots-6.8.0.jar",
+    "C:\\Users\\PC\\OneDrive\\Desktop\\java\\restaurant-system\\src\\RS\\lib\\json-20231013.jar"
   ]
 }

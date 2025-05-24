@@ -1,1 +1,0 @@
-//Represents a message in the chat system. It includes the sender, receiver, message content, and timestamp.
