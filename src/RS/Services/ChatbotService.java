@@ -1,2 +1,0 @@
-//The chatbot logic. This service can answer basic questions such as menu items, prices, and other customer-related queries. It also suggests autocomplete 
-//options for customers based on common questions.
