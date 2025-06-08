@@ -58,6 +58,7 @@ public class CustomerAuth extends JFrame {
         JPanel centerPanel = new JPanel(null);
         centerPanel.setSize(panelWidth, panelHeight);
         background.addComponentListener(new ComponentAdapter() {
+            @Override
             public void componentResized(ComponentEvent e) {
                 int x = (background.getWidth() - panelWidth) / 2;
                 int y = (background.getHeight() - panelHeight) / 2;
@@ -190,10 +191,11 @@ public class CustomerAuth extends JFrame {
         button.setBorder(new LineBorder(Color.DARK_GRAY, 1, true));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseEntered(MouseEvent e) {
                 button.setBackground(color.darker());
             }
-
+            @Override
             public void mouseExited(MouseEvent e) {
                 button.setBackground(color);
             }
@@ -276,19 +278,20 @@ public class CustomerAuth extends JFrame {
         field.setText(placeholder);
 
         field.addFocusListener(new FocusAdapter() {
+            @Override
             public void focusGained(FocusEvent e) {
                 if (field.getText().equals(placeholder)) {
                     field.setText("");
                     field.setForeground(Color.BLACK);
-                    if (field instanceof JPasswordField) ((JPasswordField) field).setEchoChar('•');
+                    if (field instanceof JPasswordField jPasswordField) jPasswordField.setEchoChar('•');
                 }
             }
-
+            @Override
             public void focusLost(FocusEvent e) {
                 if (field.getText().isEmpty()) {
                     field.setForeground(Color.GRAY);
                     field.setText(placeholder);
-                    if (field instanceof JPasswordField) ((JPasswordField) field).setEchoChar((char) 0);
+                    if (field instanceof JPasswordField jPasswordField) jPasswordField.setEchoChar((char) 0);
                 }
             }
         });

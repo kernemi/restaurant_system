@@ -123,6 +123,7 @@ public class ManagerAuth extends JFrame {
         background.add(centerPanel);
 
         addComponentListener(new ComponentAdapter() {
+            @Override
             public void componentResized(ComponentEvent e) {
                 centerPanel.setBounds(
                     (getWidth() - panelWidth) / 2,
@@ -151,10 +152,11 @@ public class ManagerAuth extends JFrame {
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         button.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseEntered(MouseEvent e) {
                 button.setBackground(color.darker());
             }
-
+            @Override
             public void mouseExited(MouseEvent e) {
                 button.setBackground(color);
             }
@@ -203,8 +205,8 @@ public class ManagerAuth extends JFrame {
                 if (field.getText().equals(placeholder)) {
                     field.setText("");
                     field.setForeground(Color.BLACK);
-                    if (field instanceof JPasswordField) {
-                        ((JPasswordField) field).setEchoChar('•');
+                    if (field instanceof JPasswordField jPasswordField) {
+                        jPasswordField.setEchoChar('•');
                     }
                 }
             }
@@ -214,8 +216,8 @@ public class ManagerAuth extends JFrame {
                 if (field.getText().isEmpty()) {
                     field.setForeground(Color.GRAY);
                     field.setText(placeholder);
-                    if (field instanceof JPasswordField) {
-                        ((JPasswordField) field).setEchoChar((char) 0);
+                    if (field instanceof JPasswordField jPasswordField) {
+                        jPasswordField.setEchoChar((char) 0);
                     }
                 }
             }
