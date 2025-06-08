@@ -30,7 +30,6 @@ public class Main {
                 e.printStackTrace();
             }
 
-            // Apply blur effect to the background image
             bgImage = blurImage((BufferedImage) bgImage);
 
             JPanel background = new JPanel() {
@@ -94,7 +93,6 @@ public class Main {
             setVisible(true);
         }
 
-        // Method to apply the blur effect
         public static BufferedImage blurImage(BufferedImage image) {
             float[] matrix = new float[25]; // Use a larger matrix for stronger blur effect
             for (int i = 0; i < 25; i++) {
@@ -112,7 +110,7 @@ public class Main {
             setFont(new Font("SansSerif", Font.BOLD, 18));
             setFocusPainted(false);
             setForeground(Color.WHITE);
-            setBackground(new Color(100, 60, 30)); // Darker brown for the buttons
+            setBackground(new Color(100, 60, 30));
             setOpaque(false);
             setContentAreaFilled(false);
             setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));

@@ -12,22 +12,22 @@ TOKEN = '7826448692:AAG6pmrrlVZqtcUBvbyDLf7g2HCC4QUMKrc'
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_chat.type != "private":
         return
-    await update.message.reply_text("Welcome! Use /menu, /price, or /location.")
+    await update.message.reply_text("Welcome! to the feastflow resturant bot Use /menu, /price, or /location.")
 
 async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_chat.type != "private":
         return
-    await update.message.reply_text("🍽 Today's Menu:\n- Pasta\n- Pizza\n- Salad")
+    await update.message.reply_text("🍽 Today's Menu:\n- Burger\n- Pizza\n- Salad\n- Sandwiches\n- Wraps")
 
 async def price(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_chat.type != "private":
         return
-    await update.message.reply_text("💲 Prices:\n- Pasta: $12\n- Pizza: $15\n- Salad: $8")
+    await update.message.reply_text("💲 Prices:\n- Burger: $12\n- Pizza: $15\n- Salad: $8\n- Sandwiches: $10\n- Wraps: $16")
 
 async def location(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_chat.type != "private":
         return
-    await update.message.reply_text("📍 We are located at: 123 Food Street, Addis Ababa.")
+    await update.message.reply_text("📍 We are located at: AASTU, Addis Ababa.")
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_chat.type != "private":

@@ -91,7 +91,6 @@ public class ChiefAuth extends JFrame {
         addPlaceholderBehavior(fullNameField, "your full name");
         centerPanel.add(fullNameField);
 
-        // Username
         JLabel userLabel = new JLabel("👤 Username:");
         userLabel.setBounds(20, 90, 120, 30);
         userLabel.setFont(labelFont);
@@ -140,7 +139,6 @@ public class ChiefAuth extends JFrame {
         styleInput(securityKeyField, cream, darkBrown);
         centerPanel.add(securityKeyField);
 
-         // Login/Signup Button
         authBtn = new JButton("Login");
         authBtn.setBounds(100, 260, 100, 40);
         styleButton(authBtn, new Color(25, 42, 86));
@@ -150,14 +148,12 @@ public class ChiefAuth extends JFrame {
         });
         centerPanel.add(authBtn);
 
-        // Toggle Button
         toggleBtn = new JButton("Switch to Signup");
         toggleBtn.setBounds(210, 260, 150, 40);
         styleButton(toggleBtn, new Color(102, 204, 102));
         toggleBtn.addActionListener(e -> toggleAuthMode());
         centerPanel.add(toggleBtn);
 
-        // Back Button
         JButton backBtn = new JButton("Back");
         backBtn.setBounds(180, 310, 100, 35);
         styleButton(backBtn, new Color(139, 0, 0));

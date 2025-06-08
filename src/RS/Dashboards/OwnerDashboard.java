@@ -1,8 +1,8 @@
 package RS.Dashboards;
 
 import RS.Services.ViewIngredients;
+import RS.UI.CustomStyle;
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 public class OwnerDashboard extends JFrame {
@@ -36,13 +36,13 @@ public class OwnerDashboard extends JFrame {
         JButton inputBtn = new JButton("📦 View Item Inputs");
         JButton manageBtn = new JButton("⚙️ Manage System");
 
-        styleButton(profitBtn);
-        styleButton(inputBtn);
-        styleButton(manageBtn);
+        CustomStyle.styleButton(profitBtn);
+        CustomStyle.styleButton(inputBtn);
+        CustomStyle.styleButton(manageBtn);
 
-        profitBtn.addActionListener(e -> showMessage("Profit Summary", "Total profit this month: $5,000"));
+        profitBtn.addActionListener(e -> CustomStyle.showCustomMessage(this, "Profit Summary", "Total profit this month: $5,000"));
         inputBtn.addActionListener(e -> new ViewIngredients());
-        manageBtn.addActionListener(e -> showMessage("System Management", "Redirecting to management panel..."));
+        manageBtn.addActionListener(e -> new RS.Services.ViewStaffInfo());
 
         centerPanel.add(profitBtn);
         centerPanel.add(inputBtn);
@@ -54,7 +54,7 @@ public class OwnerDashboard extends JFrame {
         footerPanel.setBackground(new Color(25, 20, 20));
 
         JButton backBtn = new JButton("⬅ Back");
-        styleButton(backBtn);
+        CustomStyle.styleButton(backBtn);
         backBtn.setFont(new Font("SansSerif", Font.BOLD, 14));
         backBtn.addActionListener(e -> {
             new RS.Main.WelcomePage();
@@ -72,27 +72,5 @@ public class OwnerDashboard extends JFrame {
         panel.add(footerPanel, BorderLayout.SOUTH);
 
         add(panel);
-    }
-
-    private void styleButton(JButton button) {
-        button.setFont(new Font("SansSerif", Font.BOLD, 15));
-        button.setBackground(new Color(255, 204, 102)); 
-        button.setForeground(new Color(30, 20, 10));    
-        button.setFocusPainted(false);
-        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        button.setBorder(BorderFactory.createLineBorder(new Color(120, 90, 40))); 
-        button.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                button.setBackground(new Color(255, 220, 130));
-            }
-
-            public void mouseExited(MouseEvent e) {
-                button.setBackground(new Color(255, 204, 102));
-            }
-        });
-    }
-
-    private void showMessage(String title, String message) {
-        JOptionPane.showMessageDialog(this, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 }

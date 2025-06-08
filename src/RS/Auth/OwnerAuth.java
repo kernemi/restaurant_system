@@ -63,7 +63,6 @@ public class OwnerAuth extends JFrame {
         );
         centerPanel.setOpaque(false); // transparent so background shows
 
-        // Fonts & colors
         Color cream = new Color(240, 217, 181);
         Color darkBrown = new Color(33, 20, 10);
         Font titleFont = new Font("Serif", Font.BOLD, 28);
