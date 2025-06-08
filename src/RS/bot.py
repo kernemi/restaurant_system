@@ -7,7 +7,7 @@ from telegram.ext import (
     filters,
 )
 
-TOKEN = '7826448692:AAG6pmrrlVZqtcUBvbyDLf7g2HCC4QUMKrc'
+TOKEN = "token do here"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_chat.type != "private":
