@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2025 at 05:46 PM
+-- Generation Time: Jun 08, 2025 at 11:35 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,7 +40,8 @@ CREATE TABLE `chief` (
 --
 
 INSERT INTO `chief` (`id`, `fullname`, `username`, `email`, `pasword`) VALUES
-(1, 'Edelawit Huluwork', 'edel', 'edel21@gmail.com', 'edel');
+(1, 'Edelawit Huluwork', 'edel', 'edel21@gmail.com', 'edel'),
+(2, 'Eden Kidane', 'eden', 'eden31@gmail.com', 'eden');
 
 -- --------------------------------------------------------
 
@@ -86,7 +87,8 @@ INSERT INTO `feedback` (`id`, `customer_id`, `message`, `submitted_at`) VALUES
 (1, 1, 'good menu', '2025-05-19 21:45:02'),
 (2, 1, 'overall it is nice. if there is variety of coffee it will be good', '2025-05-19 21:47:02'),
 (3, 1, 'what a nice service', '2025-05-19 21:51:41'),
-(4, 1, 'wow', '2025-05-20 08:56:41');
+(4, 1, 'wow', '2025-05-20 08:56:41'),
+(5, 2, 'amazing', '2025-06-08 11:07:47');
 
 -- --------------------------------------------------------
 
@@ -130,16 +132,17 @@ CREATE TABLE `manager` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `pasword` varchar(100) NOT NULL
+  `pasword` varchar(100) NOT NULL,
+  `email` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `manager`
 --
 
-INSERT INTO `manager` (`id`, `name`, `username`, `pasword`) VALUES
-(1, 'Mahlet', 'mahi', 'mahi'),
-(2, 'Lidya', 'lidu', 'lidu');
+INSERT INTO `manager` (`id`, `name`, `username`, `pasword`, `email`) VALUES
+(1, 'Mahlet Tesema', 'mahi', 'mahi', 'mahi21@gmail.com'),
+(2, 'Lidya Abebe', 'lidu', 'lidu', 'lidu12@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -268,7 +271,7 @@ ALTER TABLE `owner`
 -- AUTO_INCREMENT for table `chief`
 --
 ALTER TABLE `chief`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `customer`
@@ -280,7 +283,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ingredients`
