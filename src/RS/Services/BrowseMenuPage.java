@@ -6,17 +6,17 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class BrowseMenuPage extends JFrame {
-    private CardLayout cardLayout;
-    private JPanel cardPanel;
-    private String userName;
+    private final CardLayout cardLayout;
+    private final JPanel cardPanel;
+    private final String userName;
     private final int userId;
-    private String role;
+    private final String role;
 
     public BrowseMenuPage(int userId, String userName, String role) {
         this.userId = userId;
         this.userName = userName;
         this.role = role;
-        setTitle("📋 Restaurant Menu");
+        setTitle("📋 Restaurant Menu viewd as: "+ userName);
         setSize(700, 650);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -24,7 +24,6 @@ public class BrowseMenuPage extends JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(Color.WHITE);
 
-        // Top horizontal category bar with custom styled buttons
         JPanel categoryBar = new JPanel(new GridLayout(1, 4, 10, 0));
         categoryBar.setBackground(Color.BLACK);
         categoryBar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -38,7 +37,6 @@ public class BrowseMenuPage extends JFrame {
 
         mainPanel.add(categoryBar, BorderLayout.NORTH);
 
-        // Card panel to switch between category images
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
 
@@ -57,9 +55,6 @@ public class BrowseMenuPage extends JFrame {
                 case "customer":
                     new RS.Dashboards.CustomerDashboard(userId,userName);
                     break;
-                // case "manager":
-                //     new RS.Dashboards.ManagerDashboard(userId,userName);
-                //     break;
                 case "chief":
                     new RS.Dashboards.ChiefDashboard(userId,userName);
                     break;
@@ -103,7 +98,6 @@ public class BrowseMenuPage extends JFrame {
         }
     }
 
-    // Reused RoundedButton class from CustomerDashboard
     static class RoundedButton extends JButton {
         public RoundedButton(String text) {
             super(text);

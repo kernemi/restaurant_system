@@ -1,7 +1,7 @@
 package RS.Dashboards;
 
+import RS.UI.CustomStyle;
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 public class ManagerDashboard extends JFrame {
@@ -38,19 +38,19 @@ public class ManagerDashboard extends JFrame {
         JButton billingBtn = new JButton("💰 View Billing Info");
         JButton transactionBtn = new JButton("📊 View Transactions");
 
-        styleButton(addItemBtn);
-        styleButton(updateItemBtn);
-        styleButton(deleteItemBtn);
-        styleButton(viewMenuBtn);
-        styleButton(billingBtn);
-        styleButton(transactionBtn);
+        CustomStyle.styleButton(addItemBtn);
+        CustomStyle.styleButton(updateItemBtn);
+        CustomStyle.styleButton(deleteItemBtn);
+        CustomStyle.styleButton(viewMenuBtn);
+        CustomStyle.styleButton(billingBtn);
+        CustomStyle.styleButton(transactionBtn);
 
         addItemBtn.addActionListener(e -> new RS.Services.EnterFood());
         updateItemBtn.addActionListener(e -> new RS.Services.UpdateFood());
         deleteItemBtn.addActionListener(e -> new RS.Services.DeleteFood());
         viewMenuBtn.addActionListener(e -> new RS.Services.ViewFood());
-        billingBtn.addActionListener(e -> showMessage("Billing Info", "Today's total: $1,230\nMonthly: $22,000"));
-        transactionBtn.addActionListener(e -> showMessage("Transactions", "Transaction log goes here."));
+        billingBtn.addActionListener(e -> CustomStyle.showCustomMessage(this,"Billing Info", "Today's total: $1,230\nMonthly: $22,000"));
+        transactionBtn.addActionListener(e -> CustomStyle.showCustomMessage(this,"Transactions", "Transaction log goes here."));
 
         centerPanel.add(addItemBtn);
         centerPanel.add(updateItemBtn);
@@ -61,12 +61,11 @@ public class ManagerDashboard extends JFrame {
 
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
-        // Footer panel with Back button and logged in label
         JPanel footerPanel = new JPanel(new BorderLayout());
         footerPanel.setBackground(new Color(25, 20, 20));
 
         JButton backBtn = new JButton("⬅ Back");
-        styleButton(backBtn);
+        CustomStyle.styleButton(backBtn);
         backBtn.setFont(new Font("SansSerif", Font.BOLD, 14));
         backBtn.addActionListener(e -> {
             new RS.Main.WelcomePage();  
@@ -84,27 +83,5 @@ public class ManagerDashboard extends JFrame {
         mainPanel.add(footerPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
-    }
-
-    private void styleButton(JButton button) {
-        button.setFont(new Font("SansSerif", Font.BOLD, 15));
-        button.setBackground(new Color(255, 204, 102)); 
-        button.setForeground(new Color(30, 20, 10));    
-        button.setFocusPainted(false);
-        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        button.setBorder(BorderFactory.createLineBorder(new Color(120, 90, 40)));
-        button.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                button.setBackground(new Color(255, 220, 130));
-            }
-
-            public void mouseExited(MouseEvent e) {
-                button.setBackground(new Color(255, 204, 102));
-            }
-        });
-    }
-
-    private void showMessage(String title, String message) {
-        JOptionPane.showMessageDialog(this, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 }

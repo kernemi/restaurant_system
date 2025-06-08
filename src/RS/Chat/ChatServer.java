@@ -134,7 +134,7 @@ public class ChatServer extends JFrame {
                 return "Prices vary by item. Meals start from $5 USD. We have combo offers too!";
             
             if (msg.contains("location") || msg.contains("located"))
-                return "We’re located near Harvard University, around Cambridge, MA.";
+                return "We are located at: AASTU, Addis Ababa";
             
             if (msg.contains("hi") || msg.contains("hello"))
                 return "Hello, our king customer how can i asist you today ";

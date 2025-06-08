@@ -62,6 +62,7 @@ public class ChiefDashboard extends JFrame {
         JPanel centerPanel = new JPanel(new BorderLayout(20, 0));
         centerPanel.setSize(panelWidth, panelHeight);
         background.addComponentListener(new ComponentAdapter() {
+            @Override
             public void componentResized(ComponentEvent e) {
                 int x = (background.getWidth() - panelWidth) / 2;
                 int y = (background.getHeight() - panelHeight) / 2;
@@ -121,10 +122,6 @@ public class ChiefDashboard extends JFrame {
         centerPanel.add(imagePanel, BorderLayout.WEST);
         centerPanel.add(rightPanel, BorderLayout.CENTER);
         background.add(centerPanel);
-    }
-
-    private void showMessage(String title, String message) {
-        JOptionPane.showMessageDialog(this, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
     static class RoundedButton extends JButton {
