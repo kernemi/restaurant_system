@@ -52,10 +52,8 @@ public class ChatClient extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
 
-        // Connect to server
         new Thread(() -> connectToServer(serverIP, serverPort)).start();
 
-        // Action on send button or enter key
         sendButton.addActionListener(e -> sendMessage());
         inputField.addActionListener(e -> sendMessage());
     }
@@ -65,7 +63,7 @@ public class ChatClient extends JFrame {
             socket = new Socket(ip, port);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            appendMessage("Connected");
+            appendMessage("Connected.Welcome what can I help you today?");
 
             String msg;
             while ((msg = in.readLine()) != null) {
@@ -100,7 +98,6 @@ public class ChatClient extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            // Change IP and port if needed
             ChatClient client = new ChatClient("127.0.0.1", 12345);
             client.setVisible(true);
         });

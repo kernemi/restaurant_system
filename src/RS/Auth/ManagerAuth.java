@@ -4,10 +4,6 @@ import RS.DBconnection;
 import RS.Main;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ConvolveOp;
-import java.awt.image.Kernel;
 import java.io.IOException;
 import java.sql.*;
 import javax.imageio.ImageIO;
@@ -17,7 +13,7 @@ import javax.swing.border.LineBorder;
 public class ManagerAuth extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private Image Bgimage;
+    private Image bgImage;
 
     public ManagerAuth() {
         setTitle("FeastFlow - Restaurant Management");
@@ -27,19 +23,17 @@ public class ManagerAuth extends JFrame {
         setLayout(new BorderLayout());
 
         try {
-            Bgimage = ImageIO.read(getClass().getResource("/RS/UI/bg.png")); 
+            bgImage = ImageIO.read(getClass().getResource("/RS/UI/bg.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        Bgimage = blurImage((BufferedImage) Bgimage);
 
         JPanel background = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                if (Bgimage != null) {
-                    g.drawImage(Bgimage, 0, 0, getWidth(), getHeight(), this);
+                if (bgImage != null) {
+                    g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), this);
                 }
             }
         };
@@ -50,12 +44,11 @@ public class ManagerAuth extends JFrame {
         setVisible(true);
     }
 
-
     private void initUI(JPanel background) {
         int panelWidth = 500;
         int panelHeight = 300;
 
-        JPanel centerPanel = new JPanel(null); 
+        JPanel centerPanel = new JPanel(null);
         centerPanel.setBounds(
             (getWidth() - panelWidth) / 2,
             (getHeight() - panelHeight) / 2,
@@ -64,7 +57,6 @@ public class ManagerAuth extends JFrame {
         );
         centerPanel.setOpaque(false); // transparent so background shows
 
-        // Fonts & colors
         Color cream = new Color(240, 217, 181);
         Color darkBrown = new Color(33, 20, 10);
         Font titleFont = new Font("Serif", Font.BOLD, 28);
@@ -91,16 +83,14 @@ public class ManagerAuth extends JFrame {
         usernameField = new JTextField("your username");
         usernameField.setForeground(Color.GRAY);
         addPlaceholderBehavior(usernameField, "your username");
-
         usernameField.setBounds(160, 90, 260, 35);
         styleInput(usernameField, cream, darkBrown);
         centerPanel.add(usernameField);
 
         passwordField = new JPasswordField("your password");
-        passwordField.setEchoChar((char) 0); 
+        passwordField.setEchoChar((char) 0);
         passwordField.setForeground(Color.GRAY);
         addPlaceholderBehavior(passwordField, "your password");
-
         passwordField.setBounds(160, 140, 260, 35);
         styleInput(passwordField, cream, darkBrown);
         centerPanel.add(passwordField);
@@ -134,7 +124,6 @@ public class ManagerAuth extends JFrame {
             }
         });
     }
-
 
     private void styleInput(JTextField field, Color bg, Color fg) {
         field.setBackground(bg);
@@ -186,16 +175,6 @@ public class ManagerAuth extends JFrame {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Database error.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    private BufferedImage blurImage(BufferedImage image) {
-        float[] matrix = {
-            1f / 9f, 1f / 9f, 1f / 9f,
-            1f / 9f, 1f / 9f, 1f / 9f,
-            1f / 9f, 1f / 9f, 1f / 9f,
-        };
-        BufferedImageOp op = new ConvolveOp(new Kernel(3, 3, matrix));
-        return op.filter(image, null);
     }
 
     private void addPlaceholderBehavior(JTextField field, String placeholder) {

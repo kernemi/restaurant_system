@@ -4,10 +4,6 @@ import RS.DBconnection;
 import RS.Main;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ConvolveOp;
-import java.awt.image.Kernel;
 import java.io.IOException;
 import java.sql.*;
 import javax.imageio.ImageIO;
@@ -20,7 +16,7 @@ public class ChiefAuth extends JFrame {
     private JTextField securityKeyField;
     private JTextField fullNameField;
     private JTextField emailField;
-    private JLabel keyLabel,fullNameLabel, emailLabel, authModeLabel;
+    private JLabel keyLabel, fullNameLabel, emailLabel, authModeLabel;
     private boolean isLoginMode = true;
     private JButton toggleBtn, authBtn;
     private Image bgImage;
@@ -34,7 +30,6 @@ public class ChiefAuth extends JFrame {
 
         try {
             bgImage = ImageIO.read(getClass().getResource("/RS/UI/bg.png"));
-            bgImage = blurImage((BufferedImage) bgImage);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -175,6 +170,7 @@ public class ChiefAuth extends JFrame {
         toggleBtn.setText(isLoginMode ? "Switch to Signup" : "Switch to Login");
         toggleFieldVisibility();
     }
+
     private void toggleFieldVisibility() {
         boolean showSignupFields = !isLoginMode;
         fullNameLabel.setVisible(showSignupFields);
@@ -227,7 +223,7 @@ public class ChiefAuth extends JFrame {
                 int chiefId = rs.getInt("id");
                 JOptionPane.showMessageDialog(this, "Hello, " + name + "!");
                 dispose();
-                new RS.Dashboards.ChiefDashboard(chiefId,name).setVisible(true);
+                new RS.Dashboards.ChiefDashboard(chiefId, name).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid credentials!", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
@@ -279,13 +275,6 @@ public class ChiefAuth extends JFrame {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Database error.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    private BufferedImage blurImage(BufferedImage image) {
-        float[] matrix = new float[9];
-        for (int i = 0; i < 9; i++) matrix[i] = 1.0f / 9.0f;
-        BufferedImageOp op = new ConvolveOp(new Kernel(3, 3, matrix));
-        return op.filter(image, null);
     }
 
     private void addPlaceholderBehavior(JTextField field, String placeholder) {

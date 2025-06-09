@@ -2,9 +2,6 @@ package RS;
 
 import RS.Auth.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.ConvolveOp;
-import java.awt.image.Kernel;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -24,13 +21,11 @@ public class Main {
             setLocationRelativeTo(null);
 
             try {
-                bgImage = ImageIO.read(getClass().getResource("UI/bg2.png")); 
+                bgImage = ImageIO.read(getClass().getResource("UI/bg2.png"));
                 logoImage = ImageIO.read(getClass().getResource("UI/l.png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            bgImage = blurImage((BufferedImage) bgImage);
 
             JPanel background = new JPanel() {
                 @Override
@@ -47,7 +42,7 @@ public class Main {
 
             JLabel title = new JLabel("FeastFlow", SwingConstants.CENTER);
             title.setFont(new Font("Serif", Font.BOLD, 50));
-            title.setForeground(new Color(255, 200, 150)); // Light golden color
+            title.setForeground(new Color(255, 200, 150));
             title.setAlignmentX(Component.CENTER_ALIGNMENT);
             title.setBorder(BorderFactory.createEmptyBorder(40, 10, 10, 10));
             background.add(title);
@@ -61,7 +56,7 @@ public class Main {
 
             JLabel subtitle = new JLabel("Login / Sign up as:", SwingConstants.CENTER);
             subtitle.setFont(new Font("SansSerif", Font.PLAIN, 22));
-            subtitle.setForeground(Color.WHITE); // White text for the subtitle
+            subtitle.setForeground(Color.WHITE);
             subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
             subtitle.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
             background.add(subtitle);
@@ -92,16 +87,6 @@ public class Main {
             background.add(buttonPanel);
             setVisible(true);
         }
-
-        public static BufferedImage blurImage(BufferedImage image) {
-            float[] matrix = new float[25]; // Use a larger matrix for stronger blur effect
-            for (int i = 0; i < 25; i++) {
-                matrix[i] = 1.0f / 25.0f; // Each value contributes equally to the blur
-            }
-            Kernel kernel = new Kernel(5, 5, matrix); // 5x5 kernel for stronger blur
-            ConvolveOp convolve = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
-            return convolve.filter(image, null);
-        }
     }
 
     static class RoundedButton extends JButton {
@@ -120,6 +105,7 @@ public class Main {
                 public void mouseEntered(java.awt.event.MouseEvent evt) {
                     setFont(new Font("SansSerif", Font.BOLD, 20));
                 }
+
                 @Override
                 public void mouseExited(java.awt.event.MouseEvent evt) {
                     setFont(new Font("SansSerif", Font.BOLD, 18));

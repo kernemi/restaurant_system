@@ -6,6 +6,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "RMIClientGUI",
+            "request": "launch",
+            "mainClass": "RS.Chat.RMIClientGUI",
+            "projectName": "restaurant-system_2d42a133"
+        },
+        {
+            "type": "java",
+            "name": "RMIServerGUI",
+            "request": "launch",
+            "mainClass": "RS.Chat.RMIServerGUI",
+            "projectName": "restaurant-system_2d42a133"
+        },
+        {
+            "type": "java",
+            "name": "RMIClient",
+            "request": "launch",
+            "mainClass": "RS.Chat.RMIClient",
+            "projectName": "restaurant-system_2d42a133"
+        },
+        {
+            "type": "java",
             "name": "FeastFlowBot",
             "request": "launch",
             "mainClass": "RS.FeastFlowBot",
